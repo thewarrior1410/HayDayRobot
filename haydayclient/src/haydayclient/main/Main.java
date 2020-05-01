@@ -1,5 +1,6 @@
 package haydayclient.main;
 
+import haydayclient.util.Coordinates;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -21,16 +22,20 @@ public class Main {
 		
 		BufferedImage bImg = r.createScreenCapture(new Rectangle(0,0,500,500));
 		
-		ArrayList<String> s = findColoredPixels(bImg, new Color(0x000000));
-		System.out.println(s.toString());
+		ArrayList<Coordinates> s = findColoredPixels(bImg, new Color(47, 47, 47));
+		//System.out.println(s.toString());
+		
+		for(Coordinates c : s) {
+			System.out.println("x: "+c.getX()+", y: "+c.getY());
+		}
 		
 		
 	}
 	
 	
-	public static ArrayList<String> findColoredPixels(BufferedImage bImg, Color c) {
+	public static ArrayList<Coordinates> findColoredPixels(BufferedImage bImg, Color c) {
 	
-		ArrayList<String> a = new ArrayList<String>();
+		ArrayList<Coordinates> a = new ArrayList<Coordinates>();
 		int height = bImg.getHeight();
 		int width = bImg.getWidth();
 		
@@ -38,13 +43,18 @@ public class Main {
 			
 			for (int y = 0; y < width; y++) {
 				
-				if (new Color(bImg.getRGB(x, y)) == c) {
-					a.add(x+", "+y);
+				Color bcolor = new Color(bImg.getRGB(x, y));
+				System.out.println(bcolor.toString());
+				
+				if (bcolor.equals(c)) {
+					a.add(new Coordinates(x, y));
 				}
 				
 			}
 			
 		}
+		
+		System.out.println("Vergleich Color: "+c.toString());
 		
 		return a;
 		
